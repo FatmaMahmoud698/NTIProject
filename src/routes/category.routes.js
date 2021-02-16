@@ -23,7 +23,7 @@ router.post('/addCate', async(req,res)=>{
 })
 
 router.patch('/cate/:id', async(req,res)=>{
-    availableUpdates = ['name','parent']
+    availableUpdates = ['name','sub_category']
     const reqKeys = Object.keys(req.body)
     flag = reqKeys.every(key=> availableUpdates.includes(key))
     try{
@@ -67,10 +67,11 @@ router.delete('/cate/:id', async(req,res)=>{
 router.get('/cate/:parent', async(req,res)=>{
 
     try{
-        categories = await cateModel.find({parent:req.params.parent})
+        categories = await cateModel.findById(req.params.parent)
+        sub_category= categories.sub_category
         res.status(200).send({
             status:1,
-            data:categories,
+            data:sub_category,
             message:'Categories retrived'
         })
     }
@@ -82,6 +83,30 @@ router.get('/cate/:parent', async(req,res)=>{
         })
     }
 }) 
+
+// get other childern
+router.get('/cate/:child_id', async(req,res)=>{
+    // id = mongoose.Types.ObjectId(child_id)
+    try{
+        // categories = await cateModel.findOne({sub_category._id:id})
+        // sub_category= categories.sub_category
+        sub_category='test'
+        res.status(200).send({
+            status:1,
+            data:sub_category,
+            message:'Categories retrived'
+        })
+    }
+    catch(e){
+        res.status(400).send({
+            status:0,
+            data: e.message,
+            message: 'error retrive data'
+        })
+    }
+}) 
+
+
 router.get('/allCate', async(req,res)=>{
     try{
         const categories = await cateModel.find()

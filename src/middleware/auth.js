@@ -11,10 +11,9 @@ const auth = async(req, res, next)=>{
         if(!user) throw new Error()
         //if(!user.status) throw new Error()
         const route = await Route.findOne({name: reqRoute})
-        if(route){
-            const role = await Role.findOne({_id: user.role_id, 'routes.route':route._id})
-            if(!role) throw new Error()
-        }
+        if(!route) throw new Error()
+        const role = await Role.findOne({_id: user.role_id, 'routes.route':route._id})
+        if(!role) throw new Error()
         req.token = token
         req.user= user
         next()

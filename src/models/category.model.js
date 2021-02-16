@@ -5,19 +5,15 @@ const CategorySchema = new mongoose.Schema({
         minLength:[5,'minmum length'],
         maxLength:30
     },
-    parent:{
-        type: mongoose.Schema.Types.ObjectId,
-        default: null,
-        ref:'Category'
-    }
+    sub_category:[{
+        sub_name:{
+            type: String,
+            default: null,
+            unique: true
+        }
+    }]
 },{
     timestamps:true
-})
-
-CategorySchema.virtual('myCategory', {
-    ref:'Category',
-    localField: '_id',
-    foreignField:'parent'
 })
 
 CategorySchema.virtual('myProducts', {
