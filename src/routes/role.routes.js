@@ -3,6 +3,24 @@ const roleModel=require('../models/role.model')
 
 const router= new express.Router()
 
+router.get('/allRoles', async(req,res)=>{
+    try{
+        const roles = await roleModel.find()
+        res.status(200).send({
+            status:1,
+            data:roles,
+            message:'all data retrieved'
+        })
+    }
+    catch(e){
+        res.status(400).send({
+            status:0,
+            data: e.message,
+            message: 'error retreive  data'
+        })
+    }
+})
+
 router.post('/addRole', async(req,res)=>{
     const role = new roleModel(req.body)
     try{
@@ -64,11 +82,11 @@ router.delete('/role/:id', async(req,res)=>{
     }
 })
 
-router.post('/role/addRoutes/:id', async(req,res)=>{
-    rout = req.params.rout
+router.post('/addRoutesToRole/:id', async(req,res)=>{
+    route = req.body.route
     try{
         role = await roleModel.findById(req.params.id)
-        role.routes = role.routes.concat({rout})
+        role.routes = role.routes.concat({route})
         await role.save()
         res.status(200).send({
             status:1,

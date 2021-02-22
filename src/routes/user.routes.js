@@ -1,6 +1,6 @@
 const express=require('express')
 const userModel=require('../models/user.model')
-
+const auth = require('../middleware/auth')
 const router= new express.Router()
 
 router.post('/login', async(req,res)=>{
@@ -16,6 +16,7 @@ router.post('/login', async(req,res)=>{
 
 router.post('/register', async(req, res)=>{
     user = new userModel(req.body)
+    console.log(req.body)
     try{
         await user.save()
         const token = await user.generateToken()
@@ -116,5 +117,35 @@ router.get('/allUsers', async(req,res)=>{
         })
     }
 })
+
+// show all address
+
+//add address
+
+//edit address 
+
+//delete address
+
+// add to order
+
+// get all orders
+
+router.get('/userOrders', auth, async(req,res)=>{    
+    try{
+        orders = await userModel.findById(req.user._id, 'orders')
+        res.status(200).send({
+            status:1,
+            data:orders,
+            message:'orders retrived'
+        })
+    }
+    catch(e){
+        res.status(400).send({
+            status:0,
+            data: e.message,
+            message: 'error retrive data'
+        })
+    }
+}) //working
 
 module.exports = router

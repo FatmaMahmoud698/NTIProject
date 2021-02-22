@@ -89,7 +89,7 @@ const userSchema = new mongoose.Schema({
                     date:{type:Date}, 
                     status:{
                         type:String,
-                        enum:['cancelled', 'waiting', 'completed'],
+                        enum:['cancelled', 'pending', 'completed','processing'],
                         required: true,
                         default:'waiting'
                     },
@@ -99,6 +99,8 @@ const userSchema = new mongoose.Schema({
             ]
         }
     ],
+//cart
+    
     rates:[
         {
             rate:{type:Number},

@@ -296,6 +296,27 @@ router.get('/discProduct/:disc', async(req,res)=>{
     }
 })//working
 
+router.get('/simProduct/:id', async(req,res)=>{
+    _id = req.params.id
+    try{
+        product = await proModel.findById(_id, '_id category_id price discount description')
+        res.status(200).send({
+            status:1,
+            data:product,
+            message:'product retrived'
+        })
+    }
+    catch(e){
+        res.status(400).send({
+            status:0,
+            data: e.message,
+            message: 'error retrive data'
+        })
+    }
+}) //working
+
+
+
 // router.get('/latestProducts', async(req,res)=>{
 // })
 

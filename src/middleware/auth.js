@@ -24,7 +24,7 @@ const auth = async(req, res, next)=>{
             apiStatus:false,
             data: 'unauthorized user'
         })
-    }
+    } 
 }
 
 module.exports = auth

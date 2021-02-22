@@ -3,6 +3,25 @@ const routeModel=require('../models/route.model')
 
 const router= new express.Router()
 
+router.get('/allRoutes', async(req,res)=>{
+    try{
+        const routes = await routeModel.find()
+        res.status(200).send({
+            status:1,
+            data:routes,
+            message:'all data retrieved'
+        })
+    }
+    catch(e){
+        res.status(400).send({
+            status:0,
+            data: e.message,
+            message: 'error retreive  data'
+        })
+    }
+})
+
+
 router.post('/addRout', async(req,res)=>{
     const rout = new routeModel(req.body)
     try{
@@ -63,6 +82,5 @@ router.delete('/route/:id', async(req,res)=>{
         })
     }
 }) 
-
 
 module.exports = router
